@@ -40,8 +40,8 @@ import edu.eci.pdsw.samples.mybatis.mappers.PacienteMapper;
 public class MyBatisExample {
 
     /**
-     * Método que construye una fábrica de sesiones de MyBatis a partir del
-     * archivo de configuración ubicado en src/main/resources
+     * Metodo que construye una fabrica de sesiones de MyBatis a partir del
+     * archivo de configuracion ubicado en src/main/resources
      *
      * @return instancia de SQLSessionFactory
      */
@@ -70,8 +70,7 @@ public class MyBatisExample {
         SqlSession sqlss = sessionfact.openSession();
 
         PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
-
-        
+        System.out.println(pmap.loadPacienteById(1, "cc"));
         
         sqlss.commit();
         
@@ -82,7 +81,7 @@ public class MyBatisExample {
 
     /**
      * Registra un nuevo paciente y sus respectivas consultas (si existiesen).
-     * @param pmap mapper a traves del cual se hará la operacion
+     * @param pmap mapper a traves del cual se hara la operacion
      * @param p paciente a ser registrado
      */
     public void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
