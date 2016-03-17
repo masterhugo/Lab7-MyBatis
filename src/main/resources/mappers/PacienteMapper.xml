@@ -9,7 +9,7 @@
     <result property='id' column='id'/>
     <result property='tipo_id' column='tipo_id'/>
     <result property='nombre' column='nombre'/>
-    <result property='fecha_nacimiento' column='fecha'/>
+    <result property='fechaNacimiento' column='fecha_nacimiento'/>
     <collection property='consultas' ofType='Consulta' resultMap="ConsultaResult" columnPrefix="Consulta_"/>
 </resultMap>
 <resultMap type='Consulta' id='ConsultaResult'>
@@ -22,5 +22,12 @@
     from PACIENTES as pac left join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id 
     where (con.PACIENTES_id is null or con.PACIENTES_tipo_id is null or con.PACIENTES_id is not null) and pac.id=#{idpaciente} and pac.tipo_id=#{tipoidpaciente}
 </select>
-                                                                                                
+
+<insert id="insertPaciente">
+    insert into PACIENTES(id,tipo_id,nombre,fecha_nacimiento) values(#{paciente.id},#{paciente.tipo_id},#{paciente.nombre},#{paciente.fechaNacimiento})
+</insert>
+   
+<insert id="insertConsulta" useGeneratedKeys="true" keyProperty="consulta.id">
+    insert into CONSULTAS(fecha_y_hora,resumen,PACIENTES_id,PACIENTES_tipo_id) values(#{consulta.fechayHora},#{consulta.resumen},#{idpaciente},#{tipoidapaciente})
+</insert>
 </mapper>

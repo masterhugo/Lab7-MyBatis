@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +32,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import edu.eci.pdsw.samples.mybatis.mappers.PacienteMapper;
+import java.util.HashSet;
 
 /**
  *
@@ -70,8 +71,15 @@ public class MyBatisExample {
         SqlSession sqlss = sessionfact.openSession();
 
         PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
-        System.out.println(pmap.loadPacienteById(1, "cc"));
-        
+        //System.out.println(pmap.loadPacienteById(1, "cc"));
+        /*Paciente p = new Paciente(7, "RC", "Hugo", Date.valueOf("2001-01-01"));
+        Set<Consulta> cons = new HashSet<>();
+        cons.add(new Consulta(Date.valueOf("2001-02-02"), "Se registro 1"));
+        cons.add(new Consulta(Date.valueOf("2001-02-03"), "Se registro 2"));
+        cons.add(new Consulta(Date.valueOf("2001-02-03"), "Se registro 3"));
+        p.setConsultas(cons);
+        registrarNuevoPaciente(pmap,p);*/
+        System.out.println(pmap.loadPacienteById(6, "RC"));
         sqlss.commit();
         
         
@@ -84,7 +92,11 @@ public class MyBatisExample {
      * @param pmap mapper a traves del cual se hara la operacion
      * @param p paciente a ser registrado
      */
-    public void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
+    public static void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
+        pmap.insertPaciente(p);
+        for (Consulta col : p.getConsultas()) {
+            pmap.insertConsulta(col, p.getId(), p.getTipo_id());
+        }
         
     }
     
